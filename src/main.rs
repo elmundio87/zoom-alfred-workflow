@@ -122,7 +122,14 @@ fn extract_zoom_link(txt: String) -> Option<String> {
     }
 
     let n = RE.captures(txt.as_str()).iter().next().map(|c|
-        format!("{}",c.get(1).unwrap().as_str())
+
+        if c.get(3).unwrap().as_str().trim() == "my" {
+          format!("{}",c.get(1).unwrap().as_str())
+        } else {
+          format!("zoommtg://{}/join?action=join&confno={}", c.get(2).unwrap().as_str(), c.get(4).unwrap().as_str())
+        }
+        //format!("{} {} {} {}", c.get(1).unwrap().as_str(), c.get(2).unwrap().as_str(), c.get(3).unwrap().as_str(), c.get(4).unwrap().as_str())
+
     );
 
     return n;
